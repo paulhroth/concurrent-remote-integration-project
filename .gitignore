@@ -1,0 +1,13 @@
+# Eclipse
+/.classpath
+/.project
+/.settings
+
+# Maven
+/target
+
+# Finder
+.DS\_Store
+
+# vim
+*.sw?

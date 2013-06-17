@@ -1,4 +1,4 @@
-package com.polarmobile;
+package com.paulhroth;
 
 import static org.junit.Assert.*;
 
