@@ -2,7 +2,6 @@ package com.paulhroth.selenium.tests;
 
 import static org.junit.Assert.*;
 
-
 import com.paulhroth.selenium.parser.Interpreter;
 import com.paulhroth.selenium.parser.SaucePlatform;
 import com.paulhroth.selenium.parser.StaXParser;
@@ -34,16 +33,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 @RunWith(Parallelized.class)
 public class TestParallel {
-    
-    //setup strings: feel free to modify these as required
+
+    // setup strings: feel free to modify these as required
     private final String sauce_user = "<username>";
     private final String sauce_pass = "<password>";
     private final String sauce_access = "<accesskey>";
     private final String baseUrl = "https://control-staging.mediaeverywhere.com";
     private final String initialOwnerGroup = "AcmePublisher";
     private final String finalOwnerGroup = "AcmeAdvertising";
-    
-    //these are required for the test to work
+
+    // these are required for the test to work
     private WebDriver driver;
     private SauceREST client;
     private String jobID;
@@ -51,8 +50,9 @@ public class TestParallel {
     private String browser;
     private String os;
     private String version;
-    
-    //generates a random string in order to allow everything created by this test to be unique
+
+    // generates a random string in order to allow everything created by this
+    // test to be unique
     public String generateString() {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
@@ -61,7 +61,7 @@ public class TestParallel {
             char c = chars[random.nextInt(chars.length)];
             sb.append(c);
         }
-        return(sb.toString());
+        return (sb.toString());
     }
 
     public TestParallel(String os, String version, String browser) {
@@ -88,62 +88,69 @@ public class TestParallel {
         capabilities.setCapability(CapabilityType.VERSION, version);
         capabilities.setCapability(CapabilityType.PLATFORM, os);
         client = new SauceREST(sauce_user, sauce_access);
-        this.driver = new RemoteWebDriver(
-                new URL("http://" + sauce_user + ":d609b648-22e3-44bb-a38e-c28931df837d@ondemand.saucelabs.com:80/wd/hub"),
+        this.driver = new RemoteWebDriver(new URL("http://" + sauce_user + ":"
+                + sauce_access + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
-        jobID = ((RemoteWebDriver)driver).getSessionId().toString();
+        jobID = ((RemoteWebDriver) driver).getSessionId().toString();
         passed = false;
     }
 
     @Test
     public void webDriver() throws Exception {
-    	//loads site
+        // loads site
         driver.get(baseUrl + "/login");
 
-        //logs in
+        // logs in
         driver.findElement(By.id("id_username")).clear();
         driver.findElement(By.id("id_username")).sendKeys(sauce_user);
         driver.findElement(By.id("id_password")).clear();
         driver.findElement(By.id("id_password")).sendKeys(sauce_pass);
         driver.findElement(By.cssSelector("button.btn.btn-primary")).click();
 
-        //navigates to the Native Ad Creator
+        // navigates to the Native Ad Creator
         driver.findElement(By.linkText("Native Ad Creator")).click();
 
-        //creates a New Group with the name "test_<random 20 character long string>"
+        // creates a New Group with the name
+        // "test_<random 20 character long string>"
         final String groupName = generateString();
         (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                return d.findElements(By.linkText("+ New Group")).size()>0;
+                return d.findElements(By.linkText("+ New Group")).size() > 0;
             }
         });
         driver.findElement(By.linkText("+ New Group")).click();
         driver.findElement(By.id("id_name")).clear();
         driver.findElement(By.id("id_name")).sendKeys("test_" + groupName);
-        new Select(driver.findElement(By.id("id_ownergroup"))).selectByVisibleText(initialOwnerGroup);
+        new Select(driver.findElement(By.id("id_ownergroup")))
+                .selectByVisibleText(initialOwnerGroup);
         driver.findElement(By.cssSelector("input.btn.btn-success")).click();
 
-        //modifies the newly created group
+        // modifies the newly created group
         (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                return d.findElements(By.xpath(".//*[@id='main']/div/table/tbody/tr/td/h2[contains(text(),'" + groupName + "')]/a")).size()>0;
+                return d.findElements(
+                        By.xpath(".//*[@id='main']/div/table/tbody/tr/td/h2[contains(text(),'"
+                                + groupName + "')]/a")).size() > 0;
             }
         });
-        driver.findElement(By.xpath(".//*[@id='main']/div/table/tbody/tr/td/h2[contains(text(),'" + groupName + "')]/a")).click();
-        new Select(driver.findElement(By.id("id_ownergroup"))).selectByVisibleText(finalOwnerGroup);
+        driver.findElement(
+                By.xpath(".//*[@id='main']/div/table/tbody/tr/td/h2[contains(text(),'"
+                        + groupName + "')]/a")).click();
+        new Select(driver.findElement(By.id("id_ownergroup")))
+                .selectByVisibleText(finalOwnerGroup);
         driver.findElement(By.cssSelector("input.btn.btn-success")).click();
-        
-        //passes the test
+
+        // passes the test
         passed = true;
     }
 
     @After
     public void tearDown() throws Exception {
-    	 if (passed) {
-             client.jobPassed(jobID);
-         } else {
-             client.jobFailed(jobID);
-         }
-    	driver.quit();
+        if (passed) {
+            client.jobPassed(jobID);
+        } else {
+            client.jobFailed(jobID);
+        }
+        driver.quit();
     }
 }
