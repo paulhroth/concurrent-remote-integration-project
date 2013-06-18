@@ -2,22 +2,22 @@
 
 <config>
 
-  <sauceplatform os="windows8">
+  <sauceplatform os="windows 8">
     
     <browser name="firefox">
       <versions>20 21</versions>
     </browser>
     
-    <browser name="chrome">
-      <versions>27</versions>
-    </browser>
-    
+    <browser name="internet explorer">
+      <versions>10</versions>
+    </browser> 
+
   </sauceplatform>
   
-  <sauceplatform os="linux">
+  <sauceplatform os="os x 10.6">
 
-    <browser name="opera">
-      <versions>11 12</versions>
+    <browser name="firefox">
+      <versions>12</versions>
     </browser>
     
   </sauceplatform>

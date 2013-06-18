@@ -1,7 +1,8 @@
-package com.paulhroth;
+package com.paulhroth.selenium.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class SaucePlatform {
 	  private String os;

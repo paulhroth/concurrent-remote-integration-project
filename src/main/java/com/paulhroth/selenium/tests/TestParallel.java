@@ -1,4 +1,4 @@
-package com.paulhroth;
+package com.paulhroth.selenium.tests;
 
 import static org.junit.Assert.*;
 

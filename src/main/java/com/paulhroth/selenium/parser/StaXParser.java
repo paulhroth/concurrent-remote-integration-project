@@ -1,4 +1,4 @@
-package com.paulhroth;
+package com.paulhroth.selenium.parser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,7 +15,6 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import com.paulhroth.Browser;
 
 public class StaXParser {
   static final String SAUCEPLATFORM = "sauceplatform";
@@ -30,12 +29,9 @@ public class StaXParser {
   public List<SaucePlatform> readConfig(String configFile) {
     List<SaucePlatform> sauceplatforms = new ArrayList<SaucePlatform>();
     try {
-      // First create a new XMLInputFactory
       XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-      // Setup a new eventReader
       InputStream in = new FileInputStream(configFile);
       XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
-      // Read the XML document
       SaucePlatform sauceplatform = null;
       Browser browser = null;
 
@@ -44,11 +40,8 @@ public class StaXParser {
 
         if (event.isStartElement()) {
           StartElement startElement = event.asStartElement();
-          // If we have a sauceplatform element we create a new item
           if (startElement.getName().getLocalPart() == (SAUCEPLATFORM)) {
             sauceplatform = new SaucePlatform();
-            // We read the attributes from this tag and add the os
-            // attribute to our object
             Iterator<Attribute> attributes = startElement
                 .getAttributes();
             while (attributes.hasNext()) {
@@ -61,8 +54,6 @@ public class StaXParser {
           }
           if (startElement.getName().getLocalPart() == (BROWSER)) {
               browser = new Browser();
-              // We read the attributes from this tag and add the name 
-              // attribute to our object
               Iterator<Attribute> attributes = startElement
                 .getAttributes();
               while (attributes.hasNext()) {
@@ -81,7 +72,6 @@ public class StaXParser {
             }
           }
         }
-        // If we reach the end of an item element we add it to the list
         if (event.isEndElement()) {
           EndElement endElement = event.asEndElement();
           if (endElement.getName().getLocalPart() == (SAUCEPLATFORM)) {
