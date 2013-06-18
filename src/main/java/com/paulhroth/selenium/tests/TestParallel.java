@@ -3,6 +3,9 @@ package com.paulhroth.selenium.tests;
 import static org.junit.Assert.*;
 
 
+import com.paulhroth.selenium.parser.Interpreter;
+import com.paulhroth.selenium.parser.SaucePlatform;
+import com.paulhroth.selenium.parser.StaXParser;
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
@@ -11,6 +14,7 @@ import com.saucelabs.saucerest.SauceREST;
 
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.After;
@@ -68,10 +72,11 @@ public class TestParallel {
     }
 
     @Parameterized.Parameters
-    public static LinkedList browsersStrings() throws Exception {
-        LinkedList browsers = new LinkedList();
-        browsers.add(new String[]{Platform.XP.toString(), "17", "firefox"});
-        browsers.add(new String[]{Platform.XP.toString(), "20", "firefox"});
+    public static LinkedList<String[]> browsersStrings() throws Exception {
+        StaXParser parser = new StaXParser();
+        List<SaucePlatform> sauceplatforms = parser
+                .readConfig("src/main/config/config.xml");
+        LinkedList<String[]> browsers = Interpreter.interpret(sauceplatforms);
         return browsers;
     }
 
