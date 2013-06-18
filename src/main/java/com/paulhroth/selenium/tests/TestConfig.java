@@ -2,7 +2,6 @@ package com.paulhroth.selenium.tests;
 
 import static org.junit.Assert.*;
 
-
 import com.paulhroth.selenium.parser.Interpreter;
 import com.paulhroth.selenium.parser.SaucePlatform;
 import com.paulhroth.selenium.parser.StaXParser;
@@ -36,74 +35,76 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 @RunWith(Parallelized.class)
 public class TestConfig {
-    
-    //setup strings: feel free to modify these as required
-    private final String sauce_user = "polarqa";
-    private final String sauce_access = "d609b648-22e3-44bb-a38e-c28931df837d";
-    private final String baseUrl = "http://hosted.polarmobile.com/nativeads-development.polarmobile.com/sample/publisher/index.html";
-    
-    //these are required for the test to work
-    private WebDriver driver;
-    private SauceREST client;
-    private String jobID;
-    private boolean passed;
-    private String browser;
-    private String os;
-    private String version;
-    
-    public TestConfig(String os, String version, String browser) {
-        super();
-        this.os = os;
-        this.version = version;
-        this.browser = browser;
-    }
 
-    @Parameterized.Parameters
-    public static LinkedList<String[]> browsersStrings() throws Exception {
-    	StaXParser parser = new StaXParser();
-    	List<SaucePlatform> sauceplatforms = parser.readConfig("src/main/config/config.xml");
-        LinkedList<String[]> browsers = Interpreter.interpret(sauceplatforms); 
-        return browsers;
-    }
+	// setup strings: feel free to modify these as required
+	private final String sauce_user = "polarqa";
+	private final String sauce_access = "d609b648-22e3-44bb-a38e-c28931df837d";
+	private final String baseUrl = "http://hosted.polarmobile.com/nativeads-development.polarmobile.com/sample/publisher/index.html";
 
-    @Before
-    public void setUp() throws Exception {   	
-    	
-    	DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
-        capabilities.setCapability(CapabilityType.VERSION, version);
-        capabilities.setCapability(CapabilityType.PLATFORM, os);
-        client = new SauceREST(sauce_user, sauce_access);
-        this.driver = new RemoteWebDriver(
-                new URL("http://" + sauce_user + ":d609b648-22e3-44bb-a38e-c28931df837d@ondemand.saucelabs.com:80/wd/hub"),
-                capabilities);
-        jobID = ((RemoteWebDriver)driver).getSessionId().toString();
-        passed = false;
-    }
+	// these are required for the test to work
+	private WebDriver driver;
+	private SauceREST client;
+	private String jobID;
+	private boolean passed;
+	private String browser;
+	private String os;
+	private String version;
 
-    @Test
-    public void webDriver() throws Exception {
-    	//loads site
-        driver.get(baseUrl);
+	public TestConfig(String os, String version, String browser) {
+		super();
+		this.os = os;
+		this.version = version;
+		this.browser = browser;
+	}
 
-        //checks to see if span is on page
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.findElements(By.cssSelector("div div div div span")).size()>0;
-            }
-        });
+	@Parameterized.Parameters
+	public static LinkedList<String[]> browsersStrings() throws Exception {
+		StaXParser parser = new StaXParser();
+		List<SaucePlatform> sauceplatforms = parser
+				.readConfig("src/main/config/config.xml");
+		LinkedList<String[]> browsers = Interpreter.interpret(sauceplatforms);
+		return browsers;
+	}
 
-        //passes the test
-        passed = true;
-    }
+	@Before
+	public void setUp() throws Exception {
 
-    @After
-    public void tearDown() throws Exception {
-    	 if (passed) {
-             client.jobPassed(jobID);
-         } else {
-             client.jobFailed(jobID);
-         }
-    	driver.quit();
-    }
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(CapabilityType.BROWSER_NAME, browser);
+		capabilities.setCapability(CapabilityType.VERSION, version);
+		capabilities.setCapability(CapabilityType.PLATFORM, os);
+		client = new SauceREST(sauce_user, sauce_access);
+		this.driver = new RemoteWebDriver(new URL("http://" + sauce_user + ":"
+				+ sauce_access + "@ondemand.saucelabs.com:80/wd/hub"),
+				capabilities);
+		jobID = ((RemoteWebDriver) driver).getSessionId().toString();
+		passed = false;
+	}
+
+	@Test
+	public void webDriver() throws Exception {
+		// loads site
+		driver.get(baseUrl);
+
+		// checks to see if span is on page
+		(new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver d) {
+				return d.findElements(By.cssSelector("div div div div span"))
+						.size() > 0;
+			}
+		});
+
+		// passes the test
+		passed = true;
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		if (passed) {
+			client.jobPassed(jobID);
+		} else {
+			client.jobFailed(jobID);
+		}
+		driver.quit();
+	}
 }

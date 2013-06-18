@@ -10,10 +10,11 @@ public class Interpreter {
 			for (SaucePlatform sauceplatform : sauceplatforms) {
 				for (Browser browser : sauceplatform.getBrowsers()) {
 					for (String version : browser.getVersions()) {
-						platformstring.add(new String[]{sauceplatform.getOS(), version, browser.getName()});
-					}
+					platformstring.add(new String[] { sauceplatform.getOS(),
+							version, browser.getName() });
 				}
 			}
+		}
 		return platformstring;
 	}
 }
