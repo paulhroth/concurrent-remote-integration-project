@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+
+  <sauceplatform os="windows8">
+    
+    <browser name="firefox">
+      <versions>20 21</versions>
+    </browser>
+    
+    <browser name="chrome">
+      <versions>27</versions>
+    </browser>
+    
+  </sauceplatform>
+  
+  <sauceplatform os="linux">
+
+    <browser name="opera">
+      <versions>11 12</versions>
+    </browser>
+    
+  </sauceplatform>
+  
+</config>
