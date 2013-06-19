@@ -39,7 +39,7 @@ public class TestConfig {
     // setup strings: feel free to modify these as required
     private final String sauce_user = "polarqa";
     private final String sauce_access = "d609b648-22e3-44bb-a38e-c28931df837d";
-    private final String baseUrl = "http://hosted.polarmobile.com/nativeads-development.polarmobile.com/sample/publisher/index.html";
+    private final String baseUrl = Interpreter.getLink("src/main/config/baseurls.properties", "TestConfig");
 
     // these are required for the test to work
     private WebDriver driver;
