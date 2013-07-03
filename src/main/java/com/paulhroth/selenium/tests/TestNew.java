@@ -30,9 +30,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class TestNew {
 
     // setup strings: feel free to modify these as required
-    private final String sauce_user = "polarqa";
-    private final String sauce_access = "d609b648-22e3-44bb-a38e-c28931df837d";
-    private final String sauce_pass = "4testing";
+    private final String sauce_user = Interpreter.getLink("src/main/config/userinfo.properties", "username");
+    private final String sauce_access = Interpreter.getLink("src/main/config/userinfo.properties", "accesskey");
+    private final String sauce_pass = Interpreter.getLink("src/main/config/userinfo.properties", "password");
     private final String baseUrl = Interpreter.getLink(
             "src/main/config/baseurls.properties", "CMO");
     private final String initialOwnerGroup = "AcmePublisher";
