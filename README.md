@@ -43,7 +43,7 @@ In selenium-maven-project/src/main/config, you can modify the following files to
 2. userinfo.properties: Same syntax as above, except this takes three keys, "username", "password", and "accesskey".
                         Fill these in with your SauceLabs information.
 
-3. config.xml: <sauceplatform os="operating system"> tags contain <browser name="browser name"> tags which themselves contain a <versions> tag in
+3. config.xml: ```<sauceplatform os="operating system">``` tags contain ```<browser name="browser name">``` tags which themselves contain a ```<versions>``` tag in
                which you can type a string of versions to be used, e.g., "1 2 3 5 8.6".
 
 In selenium-maven-project/src/main/java/com/paulhroth/selenium/tests, you will find commented example tests that you can easily modify to your liking.
