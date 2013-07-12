@@ -1,8 +1,7 @@
-Remote Concurrent Integration Test Automation w/ Selenium, JUnit & SauceLabs
-============================================================================
+# Selenium, JUnit & SauceLabs
+## Remote Concurrent Integration Test Automation 
 
-Intro
------
+### Intro
 
 This project contains everything you need to get started writing and running JUnit4 Selenium tests in the cloud.
 Running your tests concurrently is vital if you have any concerns about speed - testing gets done a lot faster when you have fifteen tests running at once as opposed to one.
@@ -11,12 +10,11 @@ The cloud-based also approach has a number of key advantages, including saving y
 This is a Maven project, so its depencies can be easily and automatically downloaded. You should be up and testing in no time!
 
 I recommend using Eclipse as your platform from which to run your integration tests.
-Note: Instructions on how to implement these tests into CI will be added soon.
+Instructions on how to implement these tests into CI will be added soon.
 
 Happy testing!
 
-Setup
------
+### Setup
 
 1. Install Maven and Eclipse on your machine.
 
@@ -33,28 +31,26 @@ Setup
 
 5. In the root directory of the repo run: ```mvn package```. This will download all required dependencies, getting rid of any Eclipse error messages.
 
-Configuration
--------------
+### Configuration
 
-In selenium-maven-project/src/main/config, you can modify the following files to suit your setup and requirements:
+In __selenium-maven-project/src/main/config__, you can modify the following files to suit your setup and requirements:
 
-1. baseurls.properties: this takes key-value pairs, in the form "keyname=URL", e.g., "google=http://google.com".
+1. baseurls.properties: this takes key-value pairs, in the form ```keyname=URL```, e.g., ```google=http://google.com```.
 
-2. userinfo.properties: Same syntax as above, except this takes three keys, "username", "password", and "accesskey".
+2. userinfo.properties: Same syntax as above, except this takes three keys, ```username```, ```password```, and ```accesskey```.
                         Fill these in with your SauceLabs information.
 
 3. config.xml: ```<sauceplatform os="operating system">``` tags contain ```<browser name="browser name">``` tags which themselves contain a ```<versions>``` tag in
                which you can type a string of versions to be used, e.g., "1 2 3 5 8.6".
 
-In selenium-maven-project/src/main/java/com/paulhroth/selenium/tests, you will find commented example tests that you can easily modify to your liking.
+In __selenium-maven-project/src/main/java/com/paulhroth/selenium/tests__, you will find commented example tests that you can easily modify to your liking.
 Look for the ```@Test``` annotations: the method(s) below these contain the actual executed test code.
 
-Running Tests
--------------
+### Running Tests
 
 NOTE: Running tests via Buildbot is currently a WIP; instructions will be added here when finalized.
 
-1. Navigate to selenium-maven-project (the root directory) and start the SauceConnect tunnel like so:
+1. Navigate to __selenium-maven-project__ (the root directory) and start the SauceConnect tunnel like so:
    ```sh sauceconnect.sh```
    You will be notified when the tunnel is ready via stdout.
 
