@@ -1,5 +1,5 @@
 # Selenium, JUnit & SauceLabs
-## Remote Concurrent Integration Test Automation 
+## Concurrent Remote Integration Test Automation 
 
 ### Intro
 
@@ -27,13 +27,13 @@ Happy testing!
 3. Clone this repo, and in the root directory run the following command: ```mvn eclipse:eclipse```. This will set up all required Eclipse metadata.
 
 4. Import the project into Eclipse as follows: File -> Import -> General -> Existing Projects into Workspace -> Next
-   Add the path to selenium-maven-project into the "Select root directory" field. Select it in the "Projects" field and hit finish.
+   Add the path to concurrent-remote-integration-project into the "Select root directory" field. Select it in the "Projects" field and hit finish.
 
 5. In the root directory of the repo run: ```mvn package```. This will download all required dependencies, getting rid of any Eclipse error messages.
 
 ### Configuration
 
-In __selenium-maven-project/src/main/config__, you can modify the following files to suit your setup and requirements:
+In __concurrent-remote-integration-project/src/main/config__, you can modify the following files to suit your setup and requirements:
 
 1. baseurls.properties: this takes key-value pairs, in the form ```keyname=URL```, e.g., ```google=http://google.com```.
 
@@ -43,14 +43,14 @@ In __selenium-maven-project/src/main/config__, you can modify the following file
 3. config.xml: ```<sauceplatform os="operating system">``` tags contain ```<browser name="browser name">``` tags which themselves contain a ```<versions>``` tag in
                which you can type a string of versions to be used, e.g., "1 2 3 5 8.6".
 
-In __selenium-maven-project/src/main/java/com/paulhroth/selenium/tests__, you will find commented example tests that you can easily modify to your liking.
+In __concurrent-remote-integration-project/src/main/java/com/paulhroth/selenium/tests__, you will find commented example tests that you can easily modify to your liking.
 Look for the ```@Test``` annotations: the method(s) below these contain the actual executed test code.
 
 ### Running Tests
 
 NOTE: Running tests via Buildbot is currently a WIP; instructions will be added here when finalized.
 
-1. Navigate to __selenium-maven-project__ (the root directory) and start the SauceConnect tunnel like so:
+1. Navigate to __concurrent-remote-integration-project__ (the root directory) and start the SauceConnect tunnel like so:
    ```sh sauceconnect.sh```
    You will be notified when the tunnel is ready via stdout.
 
